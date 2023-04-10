@@ -5,6 +5,7 @@
 
 BIN_PATH="/usr/local/bin"
 BETTY="betty"
+
 MY_BAD_WORDS_Array=("WARNING:" "ERROR:" "error:" "warning:")
 
 # Set the color variable
@@ -22,16 +23,16 @@ if [ "$#" = "0" ]; then
 fi
 
 for argument in "$@" ; do
-    BETTY_OUTPUT=$(${BIN_PATH}/${BETTY} "$argument")
+    BETTY_OUTPUT=$(${BIN_PATH}/${BETTY} "$argument" 2>&1);
 done
 
 for bad_word in ${MY_BAD_WORDS_Array[@]}; do
-	if echo "$BETTY_OUTPUT" | grep -q "$bad_word"; then 
+	if [[ $BETTY_OUTPUT =~ $bad_word ]]; then 
 		echo -e "${bg_yellow}>>>>>>>>>checker will be sad<<<<<<<<<${clear}";
 		echo -e "${bg_blue}-----------${bg_red}bad betty style${clear}${bg_blue}-----------${clear}";
 		echo -e "$BETTY_OUTPUT";
 		echo -e "\n${bg_magenta}--------push has been canceled-------${clear}";
-		exit 0
+		exit 1
 	fi
 done
 
