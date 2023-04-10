@@ -1,5 +1,8 @@
 #!/bin/bash
-#simple scrip
+#simple script used to push .h and .c
+#files after checking betty style
+#author: Emad Anwer
+
 BIN_PATH="/usr/local/bin"
 BETTY="betty"
 MY_BAD_WORDS_Array=("WARNING:" "ERROR:" "error:" "warning:")
