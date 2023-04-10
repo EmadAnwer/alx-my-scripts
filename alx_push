@@ -1,0 +1,41 @@
+#!/bin/bash
+
+BIN_PATH="/usr/local/bin"
+BETTY="betty"
+MY_BAD_WORDS_Array=("WARNING:" "ERROR:" "error:" "warning:")
+
+# Set the color variable
+bg_blue='\033[0;44m'
+bg_magenta='\033[0;45m'
+bg_yellow='\033[0;43m'
+bg_red='\033[0;41m'
+bg_green='\033[0;42m'
+# Clear the color after that
+clear='\033[0m'
+
+if [ "$#" = "0" ]; then
+    echo "No arguments passed."
+    exit 1
+fi
+
+for argument in "$@" ; do
+    BETTY_OUTPUT=$(${BIN_PATH}/${BETTY} "$argument")
+done
+
+for bad_word in ${MY_BAD_WORDS_Array[@]}; do
+	if echo "$BETTY_OUTPUT" | grep -q "$bad_word"; then 
+		echo -e "${bg_yellow}>>>>>>>>>checker will be sad<<<<<<<<<${clear}";
+		echo -e "${bg_blue}-----------${bg_red}bad betty style${clear}${bg_blue}-----------${clear}";
+		echo -e "$BETTY_OUTPUT";
+		echo -e "\n${bg_magenta}--------push has been canceled-------${clear}";
+		exit 0
+	fi
+done
+
+echo -e "${bg_yellow}>>>>>>>>>checker will be Happy<<<<<<<<<${clear}";
+echo -e "-----------${bg_green}good betty style${clear}-----------"
+git add *.c && *.h
+git commit -m "$@"
+git push
+echo -e "${bg_magenta}--------push done-------${clear}";
+echo -e "${bg_magenta}--------good luck with checker-------${clear}";
