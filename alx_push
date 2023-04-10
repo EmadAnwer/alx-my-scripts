@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#simple scrip
 BIN_PATH="/usr/local/bin"
 BETTY="betty"
 MY_BAD_WORDS_Array=("WARNING:" "ERROR:" "error:" "warning:")
@@ -34,9 +34,11 @@ done
 
 echo -e "${bg_yellow}>>>>>>>>>checker will be Happy<<<<<<<<<${clear}";
 echo -e "-----------${bg_green}good betty style${clear}-----------"
-git add *.c && *.h
+for argument in "$@" ; do
+    git add $argument
+done
+git add *.h
 git commit -m "$@"
 git push
-
 echo -e "-------------${bg_green}push done${clear}----------------"
 echo -e "${bg_magenta}--------good luck with checker-------${clear}";
